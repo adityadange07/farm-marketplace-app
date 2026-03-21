@@ -1,0 +1,66 @@
+┌──────────┬──────────────────────────────┬──────────────────────┐
+│ Method   │ Endpoint                     │ Access               │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│          │        AUTHENTICATION        │                      │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│ POST     │ /api/auth/register           │ Public               │
+│ POST     │ /api/auth/login              │ Public               │
+│ POST     │ /api/auth/refresh            │ Public               │
+│ POST     │ /api/auth/forgot-password    │ Public               │
+│ POST     │ /api/auth/reset-password     │ Public               │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│          │         PRODUCTS             │                      │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│ GET      │ /api/products                │ Public               │
+│ GET      │ /api/products/:slug          │ Public               │
+│ GET      │ /api/products/featured       │ Public               │
+│ GET      │ /api/products/nearby         │ Public               │
+│ POST     │ /api/products                │ FARMER               │
+│ PUT      │ /api/products/:id            │ FARMER (owner)       │
+│ DELETE   │ /api/products/:id            │ FARMER (owner)       │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│          │          FARMS               │                      │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│ GET      │ /api/farms                   │ Public               │
+│ GET      │ /api/farms/:id               │ Public               │
+│ GET      │ /api/farms/:id/products      │ Public               │
+│ GET      │ /api/farms/nearby            │ Public               │
+│ POST     │ /api/farms                   │ FARMER               │
+│ PUT      │ /api/farms/:id               │ FARMER (owner)       │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│          │          CART                 │                      │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│ GET      │ /api/cart                    │ Authenticated        │
+│ POST     │ /api/cart/items              │ Authenticated        │
+│ PUT      │ /api/cart/items/:id          │ Authenticated        │
+│ DELETE   │ /api/cart/items/:id          │ Authenticated        │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│          │         ORDERS               │                      │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│ POST     │ /api/orders                  │ Authenticated        │
+│ GET      │ /api/orders                  │ Consumer             │
+│ GET      │ /api/orders/:id              │ Consumer/Farmer      │
+│ PUT      │ /api/orders/:id/cancel       │ Consumer             │
+│ GET      │ /api/farmer/orders           │ FARMER               │
+│ PUT      │ /api/farmer/orders/:id/status│ FARMER               │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│          │        REVIEWS               │                      │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│ GET      │ /api/products/:id/reviews    │ Public               │
+│ POST     │ /api/reviews                 │ Consumer             │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│          │       PAYMENTS               │                      │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│ POST     │ /api/payments/webhook        │ Stripe               │
+│ POST     │ /api/payments/connect        │ FARMER               │
+│ GET      │ /api/farmer/earnings         │ FARMER               │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│          │      DASHBOARD               │                      │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│ GET      │ /api/farmer/dashboard/stats  │ FARMER               │
+│ GET      │ /api/farmer/analytics        │ FARMER               │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│          │    CATEGORIES                │                      │
+├──────────┼──────────────────────────────┼──────────────────────┤
+│ GET      │ /api/categories              │ Public               │
+└──────────┴──────────────────────────────┴──────────────────────┘

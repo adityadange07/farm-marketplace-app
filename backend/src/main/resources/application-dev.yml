@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/farmmarket_dev?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: seaface
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    com.farmmarket: DEBUG
+    org.hibernate.SQL: DEBUG

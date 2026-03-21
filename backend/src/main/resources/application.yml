@@ -1,0 +1,101 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /api
+
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
+
+spring:
+  # ══════════════════════════════════════
+  # MySQL DATABASE
+  # ══════════════════════════════════════
+  datasource:
+    url: jdbc:mysql://localhost:3306/farmmarket?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:seaface}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        default_batch_fetch_size: 20
+        jdbc:
+          batch_size: 30
+        order_inserts: true
+        order_updates: true
+
+  # ── Flyway ───────────────────────
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  # ── Redis ────────────────────────
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+  # ── Email ────────────────────────
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
+  # ── File Upload ──────────────────
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+
+# ── JWT ──────────────────────────
+jwt:
+  secret: ${JWT_SECRET:mySecretKey12345678901234567890123456789012}
+  access-expiration: 900000
+  refresh-expiration: 604800000
+
+# ── Stripe ───────────────────────
+stripe:
+  secret-key: ${STRIPE_SECRET_KEY}
+  webhook-secret: ${STRIPE_WEBHOOK_SECRET}
+
+# ── AWS S3 ───────────────────────
+aws:
+  s3:
+    bucket: ${S3_BUCKET:farm-marketplace}
+    region: ${S3_REGION:us-east-1}
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+
+# ── Swagger ──────────────────────
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# ── Logging ──────────────────────
+logging:
+  level:
+    com.farmmarket: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

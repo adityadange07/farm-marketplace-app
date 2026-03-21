@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0"
+       style="max-width:600px;margin:0 auto;background:#fff;">
+    <tr>
+        <td style="background:#16a34a;padding:30px;text-align:center;">
+            <h1 style="color:#fff;margin:0;">🌾 FarmFresh</h1>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding:30px;">
+            <h2 style="color:#333;margin:0 0 15px;">
+                <span th:text="${statusEmoji}">📋</span>
+                Order Update
+            </h2>
+            <p style="color:#666;font-size:15px;">
+                Hi <span th:text="${consumerName}">Customer</span>,
+            </p>
+            <p style="color:#666;font-size:15px;line-height:1.6;"
+               th:text="${statusMessage}">
+                Your order status has been updated.
+            </p>
+
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;
+                        border-radius:8px;padding:20px;margin:20px 0;
+                        text-align:center;">
+                <p style="color:#999;font-size:13px;margin:0 0 5px;">
+                    Order <span th:text="${orderNumber}">FM-XXXXX</span>
+                </p>
+                <p style="font-size:24px;font-weight:bold;color:#16a34a;margin:0;">
+                    <span th:text="${status}">Status</span>
+                </p>
+                <p style="color:#666;font-size:14px;margin:5px 0 0;">
+                    from <span th:text="${farmName}">Farm</span>
+                </p>
+            </div>
+
+            <!-- Cancellation reason -->
+            <div th:if="${cancellationReason}"
+                 style="background:#fef2f2;border:1px solid #fecaca;
+                        border-radius:8px;padding:15px;margin:15px 0;">
+                <p style="color:#991b1b;font-size:14px;margin:0;">
+                    <strong>Reason:</strong>
+                    <span th:text="${cancellationReason}">reason</span>
+                </p>
+            </div>
+
+            <div style="text-align:center;margin:30px 0;">
+                <a th:href="${orderUrl}"
+                   style="background:#16a34a;color:#fff;padding:12px 35px;
+                          text-decoration:none;border-radius:8px;
+                          font-weight:bold;">
+                    View Order Details
+                </a>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="background:#f9f9f9;padding:20px 30px;text-align:center;
+                    border-top:1px solid #eee;">
+            <p style="color:#999;font-size:12px;margin:0;">
+                © <span th:text="${year}">2024</span> FarmFresh Marketplace
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

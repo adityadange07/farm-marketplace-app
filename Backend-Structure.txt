@@ -1,0 +1,154 @@
+backend/
+├── pom.xml
+├── src/
+│   ├── main/
+│   │   ├── java/com/farmmarket/
+│   │   │   │
+│   │   │   ├── FarmMarketApplication.java
+│   │   │   │
+│   │   │   ├── config/
+│   │   │   │   ├── SecurityConfig.java
+│   │   │   │   ├── CorsConfig.java
+│   │   │   │   ├── RedisConfig.java
+│   │   │   │   ├── WebSocketConfig.java
+│   │   │   │   ├── S3Config.java
+│   │   │   │   ├── OpenApiConfig.java
+│   │   │   │   └── AppConfig.java
+│   │   │   │
+│   │   │   ├── security/
+│   │   │   │   ├── JwtTokenProvider.java
+│   │   │   │   ├── JwtAuthenticationFilter.java
+│   │   │   │   ├── JwtAuthEntryPoint.java
+│   │   │   │   ├── CustomUserDetails.java
+│   │   │   │   └── CustomUserDetailsService.java
+│   │   │   │
+│   │   │   ├── entity/
+│   │   │   │   ├── User.java
+│   │   │   │   ├── Farm.java
+│   │   │   │   ├── Product.java
+│   │   │   │   ├── ProductImage.java
+│   │   │   │   ├── Category.java
+│   │   │   │   ├── Order.java
+│   │   │   │   ├── OrderItem.java
+│   │   │   │   ├── CartItem.java
+│   │   │   │   ├── Review.java
+│   │   │   │   ├── Address.java
+│   │   │   │   ├── Conversation.java
+│   │   │   │   ├── Message.java
+│   │   │   │   ├── Coupon.java
+│   │   │   │   ├── Notification.java
+│   │   │   │   └── SubscriptionPlan.java
+│   │   │   │
+│   │   │   ├── enums/
+│   │   │   │   ├── UserRole.java
+│   │   │   │   ├── OrderStatus.java
+│   │   │   │   ├── ProductStatus.java
+│   │   │   │   ├── UnitType.java
+│   │   │   │   ├── DeliveryType.java
+│   │   │   │   └── VerificationStatus.java
+│   │   │   │
+│   │   │   ├── repository/
+│   │   │   │   ├── UserRepository.java
+│   │   │   │   ├── FarmRepository.java
+│   │   │   │   ├── ProductRepository.java
+│   │   │   │   ├── OrderRepository.java
+│   │   │   │   ├── OrderItemRepository.java
+│   │   │   │   ├── CartItemRepository.java
+│   │   │   │   ├── ReviewRepository.java
+│   │   │   │   ├── CategoryRepository.java
+│   │   │   │   └── NotificationRepository.java
+│   │   │   │
+│   │   │   ├── dto/
+│   │   │   │   ├── request/
+│   │   │   │   │   ├── RegisterRequest.java
+│   │   │   │   │   ├── LoginRequest.java
+│   │   │   │   │   ├── CreateFarmRequest.java
+│   │   │   │   │   ├── CreateProductRequest.java
+│   │   │   │   │   ├── UpdateProductRequest.java
+│   │   │   │   │   ├── CreateOrderRequest.java
+│   │   │   │   │   ├── AddToCartRequest.java
+│   │   │   │   │   ├── CreateReviewRequest.java
+│   │   │   │   │   └── UpdateOrderStatusRequest.java
+│   │   │   │   │
+│   │   │   │   └── response/
+│   │   │   │       ├── AuthResponse.java
+│   │   │   │       ├── UserResponse.java
+│   │   │   │       ├── FarmResponse.java
+│   │   │   │       ├── ProductResponse.java
+│   │   │   │       ├── OrderResponse.java
+│   │   │   │       ├── CartResponse.java
+│   │   │   │       ├── ReviewResponse.java
+│   │   │   │       ├── DashboardStatsResponse.java
+│   │   │   │       ├── ApiResponse.java
+│   │   │   │       └── PagedResponse.java
+│   │   │   │
+│   │   │   ├── service/
+│   │   │   │   ├── AuthService.java
+│   │   │   │   ├── UserService.java
+│   │   │   │   ├── FarmService.java
+│   │   │   │   ├── ProductService.java
+│   │   │   │   ├── OrderService.java
+│   │   │   │   ├── CartService.java
+│   │   │   │   ├── ReviewService.java
+│   │   │   │   ├── PaymentService.java
+│   │   │   │   ├── FileUploadService.java
+│   │   │   │   ├── EmailService.java
+│   │   │   │   ├── NotificationService.java
+│   │   │   │   ├── SearchService.java
+│   │   │   │   ├── ChatService.java
+│   │   │   │   └── AnalyticsService.java
+│   │   │   │
+│   │   │   ├── controller/
+│   │   │   │   ├── AuthController.java
+│   │   │   │   ├── UserController.java
+│   │   │   │   ├── FarmController.java
+│   │   │   │   ├── ProductController.java
+│   │   │   │   ├── OrderController.java
+│   │   │   │   ├── CartController.java
+│   │   │   │   ├── ReviewController.java
+│   │   │   │   ├── PaymentController.java
+│   │   │   │   ├── ChatController.java
+│   │   │   │   ├── NotificationController.java
+│   │   │   │   ├── FarmerDashboardController.java
+│   │   │   │   └── AdminController.java
+│   │   │   │
+│   │   │   ├── exception/
+│   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   ├── ResourceNotFoundException.java
+│   │   │   │   ├── BadRequestException.java
+│   │   │   │   ├── UnauthorizedException.java
+│   │   │   │   └── InsufficientStockException.java
+│   │   │   │
+│   │   │   ├── mapper/
+│   │   │   │   ├── UserMapper.java
+│   │   │   │   ├── ProductMapper.java
+│   │   │   │   ├── OrderMapper.java
+│   │   │   │   └── FarmMapper.java
+│   │   │   │
+│   │   │   └── util/
+│   │   │       ├── SlugUtil.java
+│   │   │       └── GeoUtil.java
+│   │   │
+│   │   └── resources/
+│   │       ├── application.yml
+│   │       ├── application-dev.yml
+│   │       ├── application-prod.yml
+│   │       ├── db/migration/          # Flyway migrations
+│   │       │   ├── V1__create_users.sql
+│   │       │   ├── V2__create_farms.sql
+│   │       │   ├── V3__create_products.sql
+│   │       │   ├── V4__create_orders.sql
+│   │       │   └── V5__create_reviews.sql
+│   │       └── templates/             # Email templates
+│   │           ├── welcome.html
+│   │           ├── order-confirmation.html
+│   │           └── order-status-update.html
+│   │
+│   └── test/
+│       └── java/com/farmmarket/
+│           ├── controller/
+│           ├── service/
+│           └── repository/
+│
+├── Dockerfile
+└── docker-compose.yml

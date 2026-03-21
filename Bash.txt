@@ -1,0 +1,72 @@
+# 1. Clone repository
+git clone <repo> farm-marketplace && cd farm-marketplace
+
+# 2. Start infrastructure
+docker-compose up -d postgres redis
+
+# 3. Start Spring Boot backend
+cd backend
+cp src/main/resources/application-dev.yml.example \
+   src/main/resources/application-dev.yml
+# Edit with your credentials
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+
+# 4. Start React frontend
+cd ../frontend
+cp .env.example .env
+npm install
+npm run dev
+
+# 5. Open browser
+#    Frontend  → http://localhost:5173
+#    API Docs  → http://localhost:8080/api/swagger-ui.html
+#    Backend   → http://localhost:8080/api
+
+# Full Docker deployment
+docker-compose up -d --build
+
+
+# ═══════════════════════════════════════
+# 1. CLONE & SETUP
+# ═══════════════════════════════════════
+git clone <repo> farm-marketplace
+cd farm-marketplace
+
+# ═══════════════════════════════════════
+# 2. START DATABASE (Docker)
+# ═══════════════════════════════════════
+docker-compose up -d postgres redis
+
+# ═══════════════════════════════════════
+# 3. START SPRING BOOT BACKEND
+# ═══════════════════════════════════════
+cd backend
+cp src/main/resources/application-dev.yml.example \
+   src/main/resources/application-dev.yml
+# Edit credentials in application-dev.yml
+
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+
+# API:     http://localhost:8080/api
+# Swagger: http://localhost:8080/api/swagger-ui.html
+
+# ═══════════════════════════════════════
+# 4. START REACT FRONTEND
+# ═══════════════════════════════════════
+cd ../frontend
+cat > .env << EOF
+VITE_API_URL=http://localhost:8080/api
+VITE_STRIPE_PUBLIC_KEY=pk_test_xxx
+VITE_GOOGLE_MAPS_KEY=xxx
+EOF
+
+npm install
+npm run dev
+
+# Frontend: http://localhost:5173
+
+# ═══════════════════════════════════════
+# 5. FULL DOCKER DEPLOYMENT
+# ═══════════════════════════════════════
+docker-compose up -d --build
+# App: http://localhost

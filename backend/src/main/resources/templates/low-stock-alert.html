@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0"
+       style="max-width:600px;margin:0 auto;background:#fff;">
+    <tr>
+        <td style="background:#f59e0b;padding:30px;text-align:center;">
+            <h1 style="color:#fff;margin:0;">⚠️ Low Stock Alert</h1>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding:40px 30px;">
+            <p style="color:#666;font-size:15px;">
+                Hi <span th:text="${name}">Farmer</span>,
+            </p>
+            <div style="background:#fef3c7;border:1px solid #fcd34d;
+                        border-radius:8px;padding:20px;margin:20px 0;
+                        text-align:center;">
+                <p style="color:#92400e;font-size:18px;font-weight:bold;margin:0;">
+                    <span th:text="${productName}">Product</span>
+                </p>
+                <p style="color:#b45309;font-size:14px;margin:5px 0 0;">
+                    Only <strong th:text="${currentStock}">0</strong>
+                    units remaining
+                </p>
+            </div>
+            <p style="color:#666;font-size:14px;">
+                Update your inventory to avoid missing orders.
+            </p>
+            <div style="text-align:center;margin:25px 0;">
+                <a th:href="${productsUrl}"
+                   style="background:#f59e0b;color:#fff;padding:12px 35px;
+                          text-decoration:none;border-radius:8px;
+                          font-weight:bold;">
+                    Update Stock
+                </a>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="background:#f9f9f9;padding:20px 30px;text-align:center;
+                    border-top:1px solid #eee;">
+            <p style="color:#999;font-size:12px;margin:0;">
+                © <span th:text="${year}">2024</span> FarmFresh Marketplace
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

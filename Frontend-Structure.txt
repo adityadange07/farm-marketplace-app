@@ -1,0 +1,115 @@
+frontend/
+├── index.html
+├── vite.config.js
+├── package.json
+├── tailwind.config.js
+├── postcss.config.js
+│
+├── public/
+│   ├── favicon.ico
+│   └── images/
+│
+├── src/
+│   ├── main.jsx
+│   ├── App.jsx
+│   │
+│   ├── api/
+│   │   ├── axios.js              # Axios instance
+│   │   ├── authApi.js
+│   │   ├── productApi.js
+│   │   ├── orderApi.js
+│   │   ├── farmApi.js
+│   │   ├── cartApi.js
+│   │   └── reviewApi.js
+│   │
+│   ├── store/
+│   │   ├── authStore.js          # Zustand
+│   │   ├── cartStore.js
+│   │   └── uiStore.js
+│   │
+│   ├── hooks/
+│   │   ├── useAuth.js
+│   │   ├── useProducts.js
+│   │   ├── useOrders.js
+│   │   ├── useCart.js
+│   │   ├── useLocation.js
+│   │   └── useDebounce.js
+│   │
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── auth/
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   └── FarmerRegister.jsx
+│   │   ├── consumer/
+│   │   │   ├── Shop.jsx
+│   │   │   ├── ProductDetail.jsx
+│   │   │   ├── FarmProfile.jsx
+│   │   │   ├── Cart.jsx
+│   │   │   ├── Checkout.jsx
+│   │   │   ├── Orders.jsx
+│   │   │   ├── OrderDetail.jsx
+│   │   │   └── Profile.jsx
+│   │   ├── farmer/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Products.jsx
+│   │   │   ├── AddProduct.jsx
+│   │   │   ├── EditProduct.jsx
+│   │   │   ├── FarmerOrders.jsx
+│   │   │   ├── OrderManage.jsx
+│   │   │   └── Settings.jsx
+│   │   └── NotFound.jsx
+│   │
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── FarmerLayout.jsx
+│   │   │   └── ConsumerLayout.jsx
+│   │   ├── ui/
+│   │   │   ├── Button.jsx
+│   │   │   ├── Input.jsx
+│   │   │   ├── Modal.jsx
+│   │   │   ├── Badge.jsx
+│   │   │   ├── Card.jsx
+│   │   │   ├── Spinner.jsx
+│   │   │   ├── Select.jsx
+│   │   │   ├── Toast.jsx
+│   │   │   └── Pagination.jsx
+│   │   ├── product/
+│   │   │   ├── ProductCard.jsx
+│   │   │   ├── ProductGrid.jsx
+│   │   │   ├── ProductFilters.jsx
+│   │   │   ├── ProductForm.jsx
+│   │   │   └── ProductImageUpload.jsx
+│   │   ├── cart/
+│   │   │   ├── CartDrawer.jsx
+│   │   │   ├── CartItem.jsx
+│   │   │   └── CartSummary.jsx
+│   │   ├── order/
+│   │   │   ├── OrderCard.jsx
+│   │   │   ├── OrderTimeline.jsx
+│   │   │   └── OrderStatusBadge.jsx
+│   │   ├── farm/
+│   │   │   ├── FarmCard.jsx
+│   │   │   └── FarmMap.jsx
+│   │   ├── dashboard/
+│   │   │   ├── StatCard.jsx
+│   │   │   ├── RevenueChart.jsx
+│   │   │   └── RecentOrders.jsx
+│   │   └── common/
+│   │       ├── ProtectedRoute.jsx
+│   │       ├── RoleRoute.jsx
+│   │       ├── SearchBar.jsx
+│   │       ├── RatingStars.jsx
+│   │       ├── LocationPicker.jsx
+│   │       └── ImageGallery.jsx
+│   │
+│   ├── utils/
+│   │   ├── constants.js
+│   │   ├── helpers.js
+│   │   └── validators.js
+│   │
+│   └── styles/
+│       └── index.css
