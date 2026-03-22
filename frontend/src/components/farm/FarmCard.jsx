@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FiMapPin, FiStar } from 'react-icons/fi';
-import { GiLeaf } from 'react-icons/gi';
+import { FaLeaf } from 'react-icons/fa';
 import Badge from '../ui/Badge';
 
 export default function FarmCard({ farm }) {
@@ -23,7 +23,7 @@ export default function FarmCard({ farm }) {
         <div className="flex items-center gap-2">
           <h3 className="font-semibold text-gray-900">{farm.farmName}</h3>
           {farm.isOrganic && (
-            <GiLeaf className="text-green-500 w-4 h-4" />
+            <FaLeaf className="text-green-500 w-4 h-4" />
           )}
         </div>
         <p className="flex items-center gap-1 text-sm text-gray-500 mt-1">

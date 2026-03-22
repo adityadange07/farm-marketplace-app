@@ -28,6 +28,7 @@ spring:
     show-sql: false
     properties:
       hibernate:
+        type.preferred_uuid_jdbc_type: CHAR
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
         default_batch_fetch_size: 20
@@ -53,8 +54,8 @@ spring:
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: ${MAIL_USERNAME:dummy_mail_user}
+    password: ${MAIL_PASSWORD:dummy_mail_pass}
     properties:
       mail:
         smtp:
@@ -75,16 +76,16 @@ jwt:
 
 # ── Stripe ───────────────────────
 stripe:
-  secret-key: ${STRIPE_SECRET_KEY}
-  webhook-secret: ${STRIPE_WEBHOOK_SECRET}
+  secret-key: ${STRIPE_SECRET_KEY:dummy_stripe_key}
+  webhook-secret: ${STRIPE_WEBHOOK_SECRET:dummy_webhook_secret}
 
 # ── AWS S3 ───────────────────────
 aws:
   s3:
     bucket: ${S3_BUCKET:farm-marketplace}
     region: ${S3_REGION:us-east-1}
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_KEY}
+    access-key: ${AWS_ACCESS_KEY:dummy_access}
+    secret-key: ${AWS_SECRET_KEY:dummy_secret}
 
 # ── Swagger ──────────────────────
 springdoc:

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { FiChevronDown } from 'react-icons/fi';
-import { GiLeaf } from 'react-icons/gi';
+import { FaLeaf } from 'react-icons/fa';
 import api from '../../api/axios';
 
 const PRICE_RANGES = [
@@ -109,7 +109,7 @@ export default function ProductFilters({ filters, onChange, onClose }) {
             onChange={(e) => onChange('isOrganic', e.target.checked)}
             className="w-4 h-4 text-green-600 rounded"
           />
-          <GiLeaf className="text-green-500" />
+          <FaLeaf className="text-green-500" />
           <span className="text-sm text-gray-600">Organic Only</span>
         </label>
       </div>

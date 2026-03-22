@@ -4,7 +4,7 @@ import {
   FiMinus, FiPlus, FiShoppingCart, FiHeart,
   FiMapPin, FiTruck, FiStar, FiShare2,
 } from 'react-icons/fi';
-import { GiLeaf } from 'react-icons/gi';
+import { FaLeaf } from 'react-icons/fa';
 import { useProduct } from '../../hooks/useProducts';
 import { useCartStore } from '../../store/cartStore';
 import RatingStars from '../../components/common/RatingStars';
@@ -107,7 +107,7 @@ export default function ProductDetail() {
           {/* Badges */}
           <div className="flex gap-2 mb-3">
             {product.isOrganic && (
-              <Badge color="green" icon={<GiLeaf />}>Organic</Badge>
+              <Badge color="green" icon={<FaLeaf />}>Organic</Badge>
             )}
             {product.isSeasonal && (
               <Badge color="orange">In Season</Badge>

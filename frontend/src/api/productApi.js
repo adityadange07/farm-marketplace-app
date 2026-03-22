@@ -1,66 +1,21 @@
-import axios from 'axios';
-import { useAuthStore } from '../store/authStore';
-import toast from 'react-hot-toast';
+import api from './axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const productApi = {
+  getAll: (params) => api.get('/products', { params }).then((r) => r.data),
+  getBySlug: (slug) => api.get(`/products/${slug}`).then((r) => r.data.data),
+  getFeatured: () => api.get('/products/featured').then((r) => r.data.data),
+  getNearby: (lat, lng, radiusKm) =>
+    api.get('/products/nearby', { params: { latitude: lat, longitude: lng, radiusKm } })
+      .then((r) => r.data.data),
+  getFarmerProducts: (params) =>
+    api.get('/products', { params: { ...params, myProducts: true } }).then((r) => r.data),
+  create: (formData) =>
+    api.post('/products', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then((r) => r.data.data),
+  update: (id, formData) =>
+    api.put(`/products/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then((r) => r.data.data),
+  delete: (id) => api.delete(`/products/${id}`).then((r) => r.data),
+};
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 15000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// ── Request Interceptor ─────────────────
-api.interceptors.request.use(
-  (config) => {
-    const token = useAuthStore.getState().accessToken;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// ── Response Interceptor ────────────────
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    // Token expired — try refresh
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      try {
-        const refreshToken = useAuthStore.getState().refreshToken;
-        const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-          refreshToken,
-        });
-
-        const { accessToken, refreshToken: newRefresh } = response.data.data;
-        useAuthStore.getState().setTokens(accessToken, newRefresh);
-
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        return api(originalRequest);
-      } catch (refreshError) {
-        useAuthStore.getState().logout();
-        window.location.href = '/login';
-        return Promise.reject(refreshError);
-      }
-    }
-
-    // Show error toast
-    const message =
-      error.response?.data?.message || 'Something went wrong';
-    if (error.response?.status !== 401) {
-      toast.error(message);
-    }
-
-    return Promise.reject(error);
-  }
-);
-
-export default api;
+export default productApi;

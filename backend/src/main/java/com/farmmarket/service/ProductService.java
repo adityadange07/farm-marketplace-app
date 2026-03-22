@@ -55,6 +55,7 @@ public class ProductService {
             int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size, buildSort(sortBy, sortDir));
+        Pageable nativePageable = PageRequest.of(page, size, buildNativeSort(sortBy, sortDir));
         Page<Product> productPage;
 
         if (latitude != null && longitude != null) {
@@ -62,14 +63,14 @@ public class ProductService {
                     search, category, minPrice, maxPrice, isOrganic,
                     latitude, longitude,
                     radiusKm != null ? radiusKm : 50,
-                    pageable);
+                    nativePageable);
         } else if (search != null && !search.isBlank()) {
             try {
                 String ftSearch = "+" + search.trim()
                         .replaceAll("\\s+", " +");
                 productPage = productRepository.searchProductsFulltext(
                         ftSearch, category, minPrice, maxPrice, isOrganic,
-                        pageable);
+                        nativePageable);
             } catch (Exception e) {
                 log.warn("FULLTEXT failed, using LIKE: {}", e.getMessage());
                 productPage = productRepository.searchProducts(
@@ -339,6 +340,20 @@ public class ProductService {
             case "popular" -> Sort.by(dir, "totalSold");
             case "name" -> Sort.by(dir, "name");
             default -> Sort.by(Sort.Direction.DESC, "createdAt");
+        };
+    }
+
+    // ── Native SQL Sort builder ───────────────────
+    private Sort buildNativeSort(String sortBy, String sortDir) {
+        Sort.Direction dir = "asc".equalsIgnoreCase(sortDir)
+                ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        return switch (sortBy != null ? sortBy : "newest") {
+            case "price" -> Sort.by(dir, "price");
+            case "rating" -> Sort.by(dir, "avg_rating");
+            case "popular" -> Sort.by(dir, "total_sold");
+            case "name" -> Sort.by(dir, "name");
+            default -> Sort.by(Sort.Direction.DESC, "created_at");
         };
     }
 }

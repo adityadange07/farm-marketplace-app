@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { FiMapPin, FiStar, FiShield, FiClock } from 'react-icons/fi';
-import { GiLeaf } from 'react-icons/gi';
+import { FaLeaf } from 'react-icons/fa';
 import farmApi from '../../api/farmApi';
 import ProductCard from '../../components/product/ProductCard';
 import RatingStars from '../../components/common/RatingStars';
@@ -56,7 +56,7 @@ export default function FarmProfile() {
                   {farm.farmName}
                 </h1>
                 {farm.isOrganic && (
-                  <Badge color="green"><GiLeaf className="mr-1" /> Organic</Badge>
+                  <Badge color="green"><FaLeaf className="mr-1" /> Organic</Badge>
                 )}
                 {farm.verificationStatus === 'VERIFIED' && (
                   <Badge color="blue"><FiShield className="mr-1" /> Verified</Badge>

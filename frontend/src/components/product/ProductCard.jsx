@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FiShoppingCart, FiHeart, FiMapPin } from 'react-icons/fi';
-import { GiLeaf } from 'react-icons/gi';
+import { FaLeaf } from 'react-icons/fa';
 import { useCartStore } from '../../store/cartStore';
 import RatingStars from '../common/RatingStar';
 import Badge from '../ui/Badge';
@@ -37,7 +37,7 @@ export default function ProductCard({ product, showDistance = false }) {
         <div className="absolute top-3 left-3 flex flex-col gap-1">
           {product.isOrganic && (
             <Badge color="green" size="sm">
-              <GiLeaf className="mr-1" /> Organic
+              <FaLeaf className="mr-1" /> Organic
             </Badge>
           )}
           {discount > 0 && (

@@ -5,7 +5,7 @@ import {
   FiPlus, FiEdit2, FiTrash2, FiEye,
   FiMoreVertical, FiAlertTriangle,
 } from 'react-icons/fi';
-import { GiLeaf } from 'react-icons/gi';
+import { FaLeaf } from 'react-icons/fa';
 import productApi from '../../api/productApi';
 import Button from '../../components/ui/Button';
 import Badge from '../../components/ui/Badge';
@@ -130,7 +130,7 @@ export default function FarmerProducts() {
                         <p className="font-medium text-sm flex items-center gap-1">
                           {product.name}
                           {product.isOrganic && (
-                            <GiLeaf className="text-green-500 w-3 h-3" />
+                            <FaLeaf className="text-green-500 w-3 h-3" />
                           )}
                         </p>
                         <p className="text-xs text-gray-400">

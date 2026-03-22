@@ -15,9 +15,13 @@ export default function CartDrawer() {
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
   const clearCart = useCartStore((s) => s.clearCart);
-  const subtotal = useCartStore((s) => s.subtotal());
-  const totalItems = useCartStore((s) => s.totalItems());
-  const itemsByFarm = useCartStore((s) => s.itemsByFarm());
+  const subtotalFn = useCartStore((s) => s.subtotal);
+  const totalItemsFn = useCartStore((s) => s.totalItems);
+  const itemsByFarmFn = useCartStore((s) => s.itemsByFarm);
+  
+  const subtotal = subtotalFn();
+  const totalItems = totalItemsFn();
+  const itemsByFarm = itemsByFarmFn();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   const handleCheckout = () => {
