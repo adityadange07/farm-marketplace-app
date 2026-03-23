@@ -14,9 +14,12 @@ export default function FarmerSettings() {
     queryFn: () => api.get('/farms/mine').then((r) => r.data.data).catch(() => null),
   });
 
-  const updateMutation = useMutation({
-    mutationFn: (data) => farmApi.update(data),
-    onSuccess: () => toast.success('Farm updated!'),
+  const submitMutation = useMutation({
+    mutationFn: (data) => farm ? farmApi.update(data) : farmApi.create(data),
+    onSuccess: () => {
+      toast.success(farm ? 'Farm updated!' : 'Farm Profile created!');
+      setTimeout(() => window.location.reload(), 1000);
+    },
   });
 
   const connectMutation = useMutation({
@@ -40,7 +43,12 @@ export default function FarmerSettings() {
 
       {/* Farm Details */}
       <form
-        onSubmit={handleSubmit((data) => updateMutation.mutate(data))}
+        onSubmit={handleSubmit((data) => submitMutation.mutate({
+          ...data,
+          deliveryRadiusKm: Number(data.deliveryRadiusKm) || 0,
+          latitude: data.latitude || 39.7392,
+          longitude: data.longitude || -104.9903
+        }))}
         className="bg-white rounded-xl shadow-sm p-6 space-y-4"
       >
         <h2 className="text-lg font-semibold flex items-center gap-2">
@@ -56,9 +64,12 @@ export default function FarmerSettings() {
             {...register('description')}
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <Input label="Address Line 1" {...register('addressLine1')} />
+        <Input label="Address Line 2 (Optional)" {...register('addressLine2')} />
+        <div className="grid grid-cols-3 gap-4">
           <Input label="City" {...register('city')} />
           <Input label="State" {...register('state')} />
+          <Input label="Zip Code" {...register('zipCode')} />
         </div>
         <Input label="Delivery Radius (km)" type="number"
           {...register('deliveryRadiusKm')}
@@ -71,8 +82,8 @@ export default function FarmerSettings() {
           <span className="text-sm">Organic Farm</span>
         </label>
 
-        <Button type="submit" loading={updateMutation.isPending}>
-          Save Changes
+        <Button type="submit" loading={submitMutation.isPending}>
+          {farm ? 'Save Changes' : 'Create Farm Profile'}
         </Button>
       </form>
 

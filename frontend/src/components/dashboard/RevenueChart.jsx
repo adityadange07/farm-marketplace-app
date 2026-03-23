@@ -12,10 +12,10 @@ export default function RevenueChart({ data = [] }) {
   // Use provided data or empty
   const chartData = data.length > 0
     ? data.map((d) => ({
-        ...d,
-        revenue: Number(d.revenue) || 0,
-        orders: Number(d.orders) || 0,
-      }))
+      ...d,
+      revenue: Number(d.revenue) || 0,
+      orders: Number(d.orders) || 0,
+    }))
     : [];
 
   if (chartData.length === 0) {
@@ -51,21 +51,19 @@ export default function RevenueChart({ data = [] }) {
         <div className="flex border rounded-lg overflow-hidden text-xs">
           <button
             onClick={() => setChartType('area')}
-            className={`px-3 py-1 ${
-              chartType === 'area'
+            className={`px-3 py-1 ${chartType === 'area'
                 ? 'bg-green-50 text-green-600'
                 : 'text-gray-400'
-            }`}
+              }`}
           >
             Area
           </button>
           <button
             onClick={() => setChartType('bar')}
-            className={`px-3 py-1 ${
-              chartType === 'bar'
+            className={`px-3 py-1 ${chartType === 'bar'
                 ? 'bg-green-50 text-green-600'
                 : 'text-gray-400'
-            }`}
+              }`}
           >
             Bar
           </button>

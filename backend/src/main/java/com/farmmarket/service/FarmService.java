@@ -34,6 +34,12 @@ public class FarmService {
         return farmMapper.toResponse(farm);
     }
 
+    public FarmResponse getFarmByFarmerId(UUID farmerId) {
+        Farm farm = farmRepository.findByFarmerId(farmerId).orElse(null);
+        if (farm == null) return null;
+        return farmMapper.toResponse(farm);
+    }
+
     @Transactional
     public FarmResponse createFarm(UUID farmerId, CreateFarmRequest request) {
         if (farmRepository.existsByFarmerId(farmerId)) {

@@ -101,7 +101,7 @@ export default function Dashboard() {
               <> <strong>{stats.outOfStockProducts}</strong> out of stock.</>
             )}
             <Link to="/farmer/products?filter=low_stock"
-                  className="underline ml-1">
+              className="underline ml-1">
               View products →
             </Link>
           </span>
@@ -165,7 +165,7 @@ export default function Dashboard() {
             )}
           </h2>
           <Link to="/farmer/orders"
-                className="text-green-600 text-sm hover:underline">
+            className="text-green-600 text-sm hover:underline">
             View All →
           </Link>
         </div>

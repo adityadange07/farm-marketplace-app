@@ -27,6 +27,18 @@ public class FarmController {
     private final FarmService farmService;
     private final ProductService productService;
 
+    @GetMapping("/mine")
+    @PreAuthorize("hasRole('FARMER')")
+    public ResponseEntity<ApiResponse<FarmResponse>> getMyFarm(
+            @AuthenticationPrincipal CustomUserDetails user) {
+        FarmResponse response = farmService.getFarmByFarmerId(user.getId());
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.error("Farm not found"));
+        }
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<FarmResponse>> getFarm(
             @PathVariable UUID id) {
