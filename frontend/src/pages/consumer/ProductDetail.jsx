@@ -5,9 +5,9 @@ import {
   FiMapPin, FiTruck, FiStar, FiShare2,
 } from 'react-icons/fi';
 import { FaLeaf } from 'react-icons/fa';
-import { useProduct } from '../../hooks/useProducts';
+import { useProduct } from '../../hooks/useProduct';
 import { useCartStore } from '../../store/cartStore';
-import RatingStars from '../../components/common/RatingStars';
+import RatingStars from '../../components/common/RatingStar';
 import Badge from '../../components/ui/Badge';
 import Spinner from '../../components/ui/Spinner';
 

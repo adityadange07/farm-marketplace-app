@@ -4,7 +4,7 @@ import { FiMapPin, FiStar, FiShield, FiClock } from 'react-icons/fi';
 import { FaLeaf } from 'react-icons/fa';
 import farmApi from '../../api/farmApi';
 import ProductCard from '../../components/product/ProductCard';
-import RatingStars from '../../components/common/RatingStars';
+import RatingStars from '../../components/common/RatingStar';
 import Badge from '../../components/ui/Badge';
 import Spinner from '../../components/ui/Spinner';
 
