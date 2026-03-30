@@ -12,10 +12,12 @@ import com.farmmarket.enums.ProductStatus;
 import com.farmmarket.exception.BadRequestException;
 import com.farmmarket.exception.ResourceNotFoundException;
 import com.farmmarket.mapper.ProductMapper;
+import com.farmmarket.monitoring.metrics.BusinessMetricsService;
 import com.farmmarket.repository.CategoryRepository;
 import com.farmmarket.repository.FarmRepository;
 import com.farmmarket.repository.ProductRepository;
 import com.farmmarket.util.SlugUtil;
+import io.micrometer.core.instrument.Timer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -41,6 +43,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final FileUploadService fileUploadService;
     private final ProductMapper productMapper;
+    private final BusinessMetricsService metricsService;
 
     // ═══════════════════════════════════════════
     // CONSUMER — Browse Products
@@ -53,6 +56,8 @@ public class ProductService {
             Double latitude, Double longitude, Integer radiusKm,
             String sortBy, String sortDir,
             int page, int size) {
+
+        Timer.Sample searchSample = metricsService.startSearchTimer();
 
         Pageable pageable = PageRequest.of(page, size, buildSort(sortBy, sortDir));
         Pageable nativePageable = PageRequest.of(page, size, buildNativeSort(sortBy, sortDir));
@@ -86,6 +91,9 @@ public class ProductService {
                 .stream()
                 .map(productMapper::toResponse)
                 .toList();
+
+        metricsService.stopSearchTimer(searchSample);
+        metricsService.recordSearch(search);
 
         return PagedResponse.<ProductResponse>builder()
                 .data(products)
@@ -213,6 +221,7 @@ public class ProductService {
         }
 
         product = productRepository.save(product);
+        metricsService.recordProductCreated();
         return productMapper.toResponse(product);
     }
 

@@ -9,6 +9,7 @@ import com.farmmarket.exception.BadRequestException;
 import com.farmmarket.exception.InsufficientStockException;
 import com.farmmarket.exception.ResourceNotFoundException;
 import com.farmmarket.mapper.OrderMapper;
+import com.farmmarket.monitoring.metrics.BusinessMetricsService;
 import com.farmmarket.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ public class OrderService {
     private final PaymentService paymentService;
     private final NotificationService notificationService;
     private final OrderMapper orderMapper;
+    private final BusinessMetricsService metricsService;
 
     private static final BigDecimal PLATFORM_FEE_RATE = new BigDecimal("0.05");
     private static final BigDecimal TAX_RATE = new BigDecimal("0.08");
@@ -141,6 +143,8 @@ public class OrderService {
 
             orderIds.add(order.getId());
             orderResponses.add(orderMapper.toResponse(order));
+
+            metricsService.recordOrderPlaced(order.getTotal(), items.size());
         }
 
         // 7. Create Stripe payment intent
@@ -194,11 +198,13 @@ public class OrderService {
                 order.setDeliveredAt(LocalDateTime.now());
                 // Trigger payout to farmer
                 paymentService.transferToFarmer(order);
+                metricsService.recordOrderDelivered();
             }
             case CANCELLED -> {
                 order.setCancelledAt(LocalDateTime.now());
                 order.setCancellationReason(note);
                 restoreStock(order);
+                metricsService.recordOrderCancelled();
             }
         }
 

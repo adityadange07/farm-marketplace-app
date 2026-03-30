@@ -7,6 +7,7 @@ import com.farmmarket.entity.User;
 import com.farmmarket.enums.UserRole;
 import com.farmmarket.exception.BadRequestException;
 import com.farmmarket.exception.ResourceNotFoundException;
+import com.farmmarket.monitoring.metrics.BusinessMetricsService;
 import com.farmmarket.repository.UserRepository;
 import com.farmmarket.security.CustomUserDetails;
 import com.farmmarket.security.JwtTokenProvider;
@@ -31,6 +32,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final BusinessMetricsService metricsService;
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -64,6 +66,8 @@ public class AuthService {
         CustomUserDetails userDetails = new CustomUserDetails(user);
         String accessToken = tokenProvider.generateAccessToken(userDetails);
         String refreshToken = tokenProvider.generateRefreshToken(userDetails);
+
+        metricsService.recordUserRegistered(user.getRole().name());
 
         return AuthResponse.builder()
                 .accessToken(accessToken)

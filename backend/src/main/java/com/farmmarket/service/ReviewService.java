@@ -7,6 +7,7 @@ import com.farmmarket.entity.*;
 import com.farmmarket.enums.OrderStatus;
 import com.farmmarket.exception.BadRequestException;
 import com.farmmarket.exception.ResourceNotFoundException;
+import com.farmmarket.monitoring.metrics.BusinessMetricsService;
 import com.farmmarket.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ public class ReviewService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final BusinessMetricsService metricsService;
 
     @Transactional
     public ReviewResponse createReview(UUID consumerId,
@@ -71,6 +73,8 @@ public class ReviewService {
         product.setAvgRating(BigDecimal.valueOf(avgRating != null ? avgRating : 0));
         product.setReviewCount(count);
         productRepository.save(product);
+
+        metricsService.recordReviewCreated(request.getRating());
 
         return mapToResponse(review);
     }

@@ -94,9 +94,93 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
-# ── Logging ──────────────────────
+# ── Actuator Endpoints ─────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: >
+          health, info, metrics, prometheus,
+          loggers, caches, scheduledtasks,
+          env, flyway, mappings
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true            # Kubernetes liveness/readiness
+    prometheus:
+      enabled: true
+    loggers:
+      enabled: true              # Runtime log level change
+
+  # ── Metrics ──────────────────────────────
+  metrics:
+    tags:
+      application: farm-marketplace
+      environment: ${SPRING_PROFILES_ACTIVE:dev}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5, 0.90, 0.95, 0.99
+      slo:
+        http.server.requests: 50ms, 100ms, 200ms, 500ms, 1s, 5s
+    enable:
+      jvm: true
+      system: true
+      process: true
+      tomcat: true
+      jdbc: true
+      hibernate: true
+
+  # ── Tracing ──────────────────────────────
+  tracing:
+    sampling:
+      probability: 1.0           # 100% in dev, reduce in prod
+    enabled: true
+
+  # ── Health Groups ────────────────────────
+  health:
+    db:
+      enabled: true
+    redis:
+      enabled: true
+    diskspace:
+      enabled: true
+    mail:
+      enabled: false             # Don't fail health on mail
+
+  # ── Info Endpoint ────────────────────────
+  info:
+    env:
+      enabled: true
+
+# ── Tracing Export (Tempo) ─────────────────
+otel:
+  exporter:
+    otlp:
+      endpoint: ${OTEL_ENDPOINT:http://localhost:4318}
+  resource:
+    attributes:
+      service.name: farm-marketplace-api
+      service.version: 1.0.0
+
+# ── App Info ───────────────────────────────
+info:
+  app:
+    name: Farm Marketplace API
+    version: 1.0.0
+    description: Farm-to-Consumer Direct Marketplace
+  java:
+    version: ${java.version}
+
+# ── Logging ────────────────────────────────
 logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{traceId:-},%X{spanId:-}] %-5level %logger{36} - %msg%n"
   level:
     com.farmmarket: DEBUG
     org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    io.micrometer: INFO

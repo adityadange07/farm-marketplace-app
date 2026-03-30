@@ -19,6 +19,8 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    // Add timing start
+    config.metadata = { startTime: Date.now() };
     return config;
   },
   (error) => Promise.reject(error)
@@ -26,8 +28,29 @@ api.interceptors.request.use(
 
 // ── Response Interceptor ────────────────
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Track successful API call
+    const duration = Date.now() - response.config.metadata.startTime;
+    performanceTracker.trackApiCall(
+      response.config.method.toUpperCase(),
+      response.config.url,
+      duration,
+      response.status
+    );
+    return response;
+  },
   async (error) => {
+    // Track failed API call
+    if (error.config?.metadata) {
+      const duration = Date.now() - error.config.metadata.startTime;
+      performanceTracker.trackApiCall(
+        error.config.method.toUpperCase(),
+        error.config.url,
+        duration,
+        error.response?.status || 0
+      );
+    }
+
     const originalRequest = error.config;
 
     // Token expired — try refresh

@@ -1,0 +1,154 @@
+groups:
+  # ═══════════════════════════════════
+  # APPLICATION ALERTS
+  # ═══════════════════════════════════
+  - name: farm_app_alerts
+    rules:
+      # ── High Error Rate ──────────
+      - alert: HighErrorRate
+        expr: |
+          (
+            sum(rate(http_server_requests_seconds_count{status=~"5.."}[5m]))
+            /
+            sum(rate(http_server_requests_seconds_count[5m]))
+          ) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate (>5%)"
+          description: "Error rate is {{ $value | humanizePercentage }}"
+
+      # ── Slow Response Time ───────
+      - alert: SlowResponseTime
+        expr: |
+          histogram_quantile(0.95,
+            rate(http_server_requests_seconds_bucket[5m])
+          ) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "P95 response time > 2s"
+          description: "P95 latency: {{ $value | humanizeDuration }}"
+
+      # ── App Down ─────────────────
+      - alert: ApplicationDown
+        expr: up{job="farm-marketplace-api"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Farm Marketplace API is down"
+          description: "API has been unreachable for 30s"
+
+      # ── High Memory Usage ────────
+      - alert: HighMemoryUsage
+        expr: |
+          jvm_memory_used_bytes{area="heap"}
+          / jvm_memory_max_bytes{area="heap"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "JVM heap usage > 85%"
+          description: "Heap: {{ $value | humanizePercentage }}"
+
+  # ═══════════════════════════════════
+  # BUSINESS ALERTS
+  # ═══════════════════════════════════
+  - name: farm_business_alerts
+    rules:
+      # ── Too Many Pending Orders ──
+      - alert: TooManyPendingOrders
+        expr: farm_orders_pending > 50
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $value }} pending orders"
+          description: "Orders may not be getting processed"
+
+      # ── Payment Failures ─────────
+      - alert: PaymentFailureSpike
+        expr: |
+          rate(farm_payments_failed_total[10m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Payment failure rate spike"
+
+      # ── No Orders ────────────────
+      - alert: NoOrdersReceived
+        expr: |
+          increase(farm_orders_placed_total[1h]) == 0
+        for: 2h
+        labels:
+          severity: warning
+        annotations:
+          summary: "No orders in last 2 hours"
+
+      # ── Low Stock Products ───────
+      - alert: ManyLowStockProducts
+        expr: farm_products_low_stock > 20
+        for: 30m
+        labels:
+          severity: info
+        annotations:
+          summary: "{{ $value }} products with low stock"
+
+  # ═══════════════════════════════════
+  # INFRASTRUCTURE ALERTS
+  # ═══════════════════════════════════
+  - name: farm_infra_alerts
+    rules:
+      # ── MySQL Down ───────────────
+      - alert: MySQLDown
+        expr: mysql_up == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "MySQL is down"
+
+      # ── MySQL Slow Queries ───────
+      - alert: MySQLSlowQueries
+        expr: |
+          rate(mysql_global_status_slow_queries[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "MySQL slow queries detected"
+
+      # ── Redis Down ──────────────
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Redis is down"
+
+      # ── High CPU ────────────────
+      - alert: HighCPUUsage
+        expr: |
+          100 - (avg by(instance)
+            (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU usage > 80%"
+
+      # ── Disk Space ──────────────
+      - alert: LowDiskSpace
+        expr: |
+          node_filesystem_avail_bytes{mountpoint="/"}
+          / node_filesystem_size_bytes{mountpoint="/"} < 0.15
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Disk space < 15%"

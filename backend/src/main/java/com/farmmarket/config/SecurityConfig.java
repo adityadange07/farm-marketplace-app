@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/farms/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
                         .requestMatchers("/payments/webhook").permitAll()
+                        .requestMatchers("/monitoring/**").permitAll()
 
                         // Farmer endpoints
                         .requestMatchers("/farmer/**").hasRole("FARMER")
