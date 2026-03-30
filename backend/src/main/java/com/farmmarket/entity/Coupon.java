@@ -28,7 +28,7 @@ public class Coupon {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "discount_type", nullable = false)
+    @Column(name = "discount_type", nullable = false, columnDefinition = "ENUM('percentage', 'fixed')")
     private String discountType; // "percentage" or "fixed"
 
     @Column(name = "discount_value", nullable = false, precision = 10, scale = 2)

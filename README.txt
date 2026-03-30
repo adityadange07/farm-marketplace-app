@@ -168,3 +168,49 @@ SELECT JSON_EXTRACT(delivery_address, '$.city') AS city
 FROM orders
 WHERE delivery_address IS NOT NULL;
 
+# ═══════════════════════════════════════
+# 1. Start App + Monitoring Stack
+# ═══════════════════════════════════════
+
+# Start application containers
+docker-compose up -d
+
+# Start monitoring stack
+docker-compose -f docker-compose.monitoring.yml up -d
+
+# ═══════════════════════════════════════
+# 2. Access Points
+# ═══════════════════════════════════════
+
+#  Application:
+#    API:         http://localhost:8080/api
+#    Frontend:    http://localhost:5173
+#    Swagger:     http://localhost:8080/api/swagger-ui.html
+
+#  Actuator:
+#    Health:      http://localhost:8080/api/actuator/health
+#    Metrics:     http://localhost:8080/api/actuator/metrics
+#    Prometheus:  http://localhost:8080/api/actuator/prometheus
+#    Info:        http://localhost:8080/api/actuator/info
+
+#  Monitoring:
+#    Grafana:     http://localhost:3333  (admin/admin123)
+#    Prometheus:  http://localhost:9090
+#    Loki:        http://localhost:3100
+#    Alertmanager: http://localhost:9093
+
+# ═══════════════════════════════════════
+# 3. Verify Everything Works
+# ═══════════════════════════════════════
+
+# Check health
+curl http://localhost:8080/api/actuator/health | jq
+
+# Check custom metrics
+curl -s http://localhost:8080/api/actuator/prometheus | grep farm_
+
+# Check Prometheus targets
+open http://localhost:9090/targets
+
+# Open Grafana dashboard
+open http://localhost:3333

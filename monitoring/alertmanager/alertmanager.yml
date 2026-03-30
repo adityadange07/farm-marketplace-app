@@ -18,12 +18,12 @@ route:
 receivers:
   - name: "default"
     webhook_configs:
-      - url: "http://api:8080/api/webhooks/alerts"
+      - url: "http://api:9090/api/webhooks/alerts"
         send_resolved: true
 
   - name: "critical-alerts"
     webhook_configs:
-      - url: "http://api:8080/api/webhooks/alerts"
+      - url: "http://api:9090/api/webhooks/alerts"
         send_resolved: true
     # Slack (uncomment and configure):
     # slack_configs:
@@ -34,5 +34,5 @@ receivers:
 
   - name: "warning-alerts"
     webhook_configs:
-      - url: "http://api:8080/api/webhooks/alerts"
+      - url: "http://api:9090/api/webhooks/alerts"
         send_resolved: true

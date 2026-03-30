@@ -43,7 +43,10 @@ public class Address {
     @Builder.Default
     private String country = "US";
 
+    @Column(columnDefinition = "DECIMAL(10,8)")
     private Double latitude;
+
+    @Column(columnDefinition = "DECIMAL(11,8)")
     private Double longitude;
 
     @Column(name = "is_default")

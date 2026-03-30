@@ -16,7 +16,7 @@ scrape_configs:
     metrics_path: "/api/actuator/prometheus"
     scrape_interval: 10s
     static_configs:
-      - targets: ["api:8080"]
+      - targets: ["api:9090"]
         labels:
           application: "farm-marketplace"
           component: "api"

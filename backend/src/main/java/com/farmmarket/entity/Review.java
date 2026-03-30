@@ -43,7 +43,7 @@ public class Review {
     @JoinColumn(name = "consumer_id")
     private User consumer;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TINYINT")
     private Integer rating;
 
     private String title;
